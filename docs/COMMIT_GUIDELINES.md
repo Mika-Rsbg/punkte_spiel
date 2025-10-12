@@ -14,7 +14,8 @@ Each commit message must follow the format:
 - **scope:** Specifies the part of the project affected.
 - **short, imperative summary:** A concise description of the changes in the imperative mood.
 
-### Examples:
+### Examples
+
 - `feat(model): add exposed compartment`
 - `fix(simulation): correct integration bug`
 - `docs(readme): update model description`
@@ -33,7 +34,7 @@ The commit body is optional but recommended when further explanation is needed. 
 - **What** issues are addressed.
 - **How** the change impacts the system or any side effects.
 
-### Example:
+### Example
 
 `This commit implements the initial structure of the extended SIR model.
 It introduces an 'Exposed' compartment to better simulate the early stages of an outbreak.
@@ -45,7 +46,7 @@ The numerical integration method has been updated to a more stable Runge-Kutta v
 
 The footer is used to reference related issues or include additional notes, such as breaking changes or dependencies.
 
-### Example:
+### Example
 
 `Closes #42`
 
