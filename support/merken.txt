@@ -1,0 +1,96 @@
+Dynamische Fenstergröße festlegen
+Um die Fenstergröße dynamisch an den Inhalt anzupassen, kannst du entweder die Fenstergröße mit .geometry() festlegen, basierend auf den benötigten Pixeln, oder das Fenster automatisch mit .update_idletasks() und .wm_geometry() anpassen lassen. Alternativ kannst du die Breite und Höhe in Abhängigkeit von der Bildschirmgröße berechnen, um ein responsive Layout zu erstellen.
+
+Automatische Anpassung an Inhalte
+self.window.update_idletasks()
+self.window.geometry(f"{self.window.winfo_width()}x{self.window.winfo_height()}")
+
+Dynamische Größe basierend auf Bildschirm
+screen_width = self.window.winfo_screenwidth()
+screen_height = self.window.winfo_screenheight()
+window_width = int(screen_width * 0.5)  # 50% der Bildschirmbreite
+window_height = int(screen_height * 0.5)  # 50% der Bildschirmhöhe
+self.window.geometry(f"{window_width}x{window_height}")
+
+
+Dynamische Fenstergröße festlegen
+Um die Fenstergröße dynamisch an den Inhalt anzupassen, kannst du entweder die Fenstergröße mit .geometry() festlegen, basierend auf den benötigten Pixeln, oder das Fenster automatisch mit .update_idletasks() und .wm_geometry() anpassen lassen. Alternativ kannst du die Breite und Höhe in Abhängigkeit von der Bildschirmgröße berechnen, um ein responsive Layout zu erstellen.
+
+Automatische Anpassung an Inhalte
+python
+Code kopieren
+self.window.update_idletasks()
+self.window.geometry(f"{self.window.winfo_width()}x{self.window.winfo_height()}")
+Dynamische Größe basierend auf Bildschirm
+python
+Code kopieren
+screen_width = self.window.winfo_screenwidth()
+screen_height = self.window.winfo_screenheight()
+window_width = int(screen_width * 0.5)  # 50% der Bildschirmbreite
+window_height = int(screen_height * 0.5)  # 50% der Bildschirmhöhe
+self.window.geometry(f"{window_width}x{window_height}")
+Größe und Form von Buttons anpassen
+Größe eines Buttons anpassen
+Du kannst die Größe von Buttons über die Parameter width und height steuern. Diese Werte beziehen sich auf Zeichen, nicht auf Pixel.
+
+
+button2 = tk.Button(
+    self.window, 
+    text="Close", 
+    command=self.window.destroy, 
+    bg=config.Design.Colors.PRIMARY, 
+    font=config.Design.Fonts.BUTTON_TEXT, 
+    width=10,  # Breite in Zeichen
+    height=2   # Höhe in Textzeilen
+)
+button2.grid(row=6, column=1, padx=10, pady=10)
+Abgerundete Kanten für Buttons
+Standardmäßig unterstützt tkinter keine abgerundeten Buttons. Du kannst jedoch ttk.Button verwenden und ein benutzerdefiniertes ttk.Style definieren, um das Erscheinungsbild zu verändern. Wenn du echte abgerundete Buttons möchtest, benötigst du zusätzliche Bibliotheken wie tkinter.ttkbootstrap oder tkinter.Canvas.
+
+Beispiel mit ttk.Style
+style = ttk.Style()
+style.configure(
+    "Rounded.TButton",
+    font=config.Design.Fonts.BUTTON_TEXT,
+    background=config.Design.Colors.PRIMARY,
+    foreground="white",
+    borderwidth=0,
+    relief="flat"
+)
+style.map(
+    "Rounded.TButton",
+    background=[("active", config.Design.Colors.SECONDARY)]
+)
+
+rounded_button = ttk.Button(
+    self.window,
+    text="Close",
+    style="Rounded.TButton",
+    command=self.window.destroy
+)
+rounded_button.grid(row=6, column=1, padx=10, pady=10)
+
+
+Beispiel mit Canvas für echte Rundungen
+Ein Button mit abgerundeten Ecken kann als Canvas-Widget gezeichnet werden:
+
+from tkinter import Canvas
+
+def rounded_button(canvas, x, y, width, height, text, command, radius=20, bg="blue", fg="white"):
+    id_oval = canvas.create_oval(x, y, x + radius, y + radius, fill=bg, outline=bg)
+    id_oval2 = canvas.create_oval(x + width - radius, y, x + width, y + radius, fill=bg, outline=bg)
+    id_oval3 = canvas.create_oval(x, y + height - radius, x + radius, y + height, fill=bg, outline=bg)
+    id_oval4 = canvas.create_oval(x + width - radius, y + height - radius, x + width, y + height, fill=bg, outline=bg)
+    id_rect = canvas.create_rectangle(x + radius / 2, y, x + width - radius / 2, y + height, fill=bg, outline=bg)
+    id_rect2 = canvas.create_rectangle(x, y + radius / 2, x + width, y + height - radius / 2, fill=bg, outline=bg)
+    id_text = canvas.create_text(x + width / 2, y + height / 2, text=text, fill=fg, font=config.Design.Fonts.BUTTON_TEXT)
+
+    def on_click(event):
+        command()
+
+    for item in (id_oval, id_oval2, id_oval3, id_oval4, id_rect, id_rect2, id_text):
+        canvas.tag_bind(item, "<Button-1>", on_click)
+
+canvas = tk.Canvas(self.window, width=300, height=100)
+canvas.grid(row=6, column=1)
+rounded_button(canvas, 50, 20, 200, 40, "Close", self.window.destroy)

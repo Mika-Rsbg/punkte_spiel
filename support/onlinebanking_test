@@ -1,0 +1,40 @@
+# from fints.client import FinTS3PinTanClient
+
+# # Zugangsdaten für die Sparkasse
+# fints_url = "https://banking-by5.s-fints-pt-by.de/fints30"  # URL für Sparkassen-HBCI
+# blz = "39050000"  # Bankleitzahl deiner Sparkasse
+# account_id = "DE63390500001077149530"  # IBAN deines Kontos
+# user_id = "1077149530"  # Anmeldename (meist Kundennummer)
+# pin = "DidO-B,m1O-B"  # Deine PIN
+
+# # HBCI-Client initialisieren
+# client = FinTS3PinTanClient(blz, user_id, pin, fints_url)
+
+# try:
+#     # Kontoinformationen abrufen
+#     accounts = client.get_sepa_accounts()  # Verfügbaren Konten abrufen
+#     for account in accounts:
+#         if account.iban == account_id:
+#             balance = client.get_balance(account)  # Kontostand abrufen
+#             print(f"Kontostand für {account.iban}: {balance.amount} {balance.currency}")
+#             break
+#     else:
+#         print("Konto nicht gefunden.")
+# except Exception as e:
+#     print(f"Fehler beim Abrufen des Kontostands: {e}")
+# finally:
+#     client.close()
+
+import logging
+from datetime import date
+import getpass
+from fints.client import FinTS3PinTanClient
+
+logging.basicConfig(level=logging.DEBUG)
+f = FinTS3PinTanClient(
+    '39050000',  # Your bank's BLZ
+    '1077149530',  # Your login name
+    getpass.getpass('PIN:'),  # Your banking PIN
+    'https://hbci-pintan.gad.de/cgi-bin/hbciservlet',
+    product_id='Your product ID'  # see above
+)
