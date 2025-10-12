@@ -4,10 +4,12 @@ class Game:
     current_turn = 0
     inflation_rate = 0
 
+
 class GameWindow:
     """Informationen über das Hauptfenster und den Inhalt vom Hauptfenster."""
     buttons = None
     labels = None
+
 
 class GameGrid:
     """Informationen über das Spielfeld-Raster."""
@@ -15,15 +17,19 @@ class GameGrid:
     GRID_ROWS = 15  # Anzahl der Zeilen
     GRID_COLS = 40  # Anzahl der Spalten´
 
-    fields = {} # Speichert die Rechteck-IDs für jedes Feld
+    fields = {}  # Speichert die Rechteck-IDs für jedes Feld
     """
         Das Dictionary `fields`, verwalltet die Daten aller Spielfelder.<br>
-        Jedes Feld wird durch seine (Spalte, Zeile)-Koordinaten als Schlüssel identifiziert<br>
+        Jedes Feld wird durch seine (Spalte, Zeile)-Koordinaten als Schlüssel
+        identifiziert<br>
         und enthält folgende Attribute:
- 
-        - `rect_id` (int): Die ID des Rechtecks im Canvas, um das Feld grafisch darzustellen.
-        - `building` (int): Der Gebäudestatus des Feldes (0 = nichts, 1 = Dorf, etc.).
-        - `team` (int): Der Besitzstatus des Feldes (0 = neutral, 1 = Team 1, 2 = Team 2).
+
+        - `rect_id` (int): Die ID des Rechtecks im Canvas, um das Feld
+        grafisch darzustellen.
+        - `building` (int): Der Gebäudestatus des Feldes
+        (0 = nichts, 1 = Dorf, etc.).
+        - `team` (int): Der Besitzstatus des Feldes (0 = neutral, 1 = Team 1,
+        2 = Team 2).
         <br>
         Beispielzugriff:
         ```# Feld bei Spalte 3, Zeile 2
@@ -37,15 +43,17 @@ class GameGrid:
             fields[(3, 2)]["team"] = 1      # Feld gehört jetzt Team 1
     """
 
+
 class GameCanvas:
     """Canvas-Informationen für das Spielfeld."""
-    CANVAS_WIDTH = GameGrid.GRID_SIZE * GameGrid.GRID_COLS +1
-    CANVAS_HEIGHT = GameGrid.GRID_SIZE * GameGrid.GRID_ROWS +1
+    CANVAS_WIDTH = GameGrid.GRID_SIZE * GameGrid.GRID_COLS + 1
+    CANVAS_HEIGHT = GameGrid.GRID_SIZE * GameGrid.GRID_ROWS + 1
     CANVAS_BACKGROUND = "#70ff74"
     canvas = None
     is_field_selected = False
     selected_field = ()
     persistent_highlights = set()  # Speichert persistent hervorgehobene Felder
+
 
 class Player:
     class PlayerID:
@@ -56,7 +64,7 @@ class Player:
 
     class Player1:
         """Informationen über Spieler 1."""
-        COLOR = "#0000ff" # "blue"         "yellow"#ffff00
+        COLOR = "#0000ff"  # "blue"         "yellow"#ffff00
         """Blau"""
         INIT_RESSOURCES = 1500
 
@@ -71,7 +79,7 @@ class Player:
 
     class Player2:
         """Informationen über Spieler 2."""
-        COLOR = "#ff0000" #"red"
+        COLOR = "#ff0000"  # "red"
         """Rot"""
         INIT_RESSOURCES = 15
 
@@ -83,6 +91,7 @@ class Player:
         number_of_stadte = 0
         number_of_streets = 0
         streets = []
+
 
 class Building:
     """Informationen zu Gebäuden."""
@@ -152,30 +161,41 @@ class Building:
         left_player = Player.PlayerID.NO_PLAYER
         right_player = Player.PlayerID.NO_PLAYER
 
+
 class BuildingMenu:
     """Informationen über das BuildingMenu"""
     class BuildingMenuCanvas:
         """Canvas-Informationen für das Gebäudemenü."""
-        # CANVAS_WIDTH = (Grid.GRID_SIZE * Building.NUMBER_OF_BUILDING_TYPES) * 2  + 1 - Grid.GRID_ROWS * 2
+        # CANVAS_WIDTH = (Grid.GRID_SIZE * Building.NUMBER_OF_BUILDING_TYPES)
+        # * 2  + 1 - Grid.GRID_ROWS * 2
         SPACING = GameGrid.GRID_SIZE
-        CANVAS_WIDTH = GameGrid.GRID_SIZE * Building.NUMBER_OF_BUILDING_TYPES + 1 + (Building.NUMBER_OF_BUILDING_TYPES - 1) * SPACING
+        CANVAS_WIDTH = (GameGrid.GRID_SIZE * Building.NUMBER_OF_BUILDING_TYPES
+                        + 1 + (Building.NUMBER_OF_BUILDING_TYPES - 1) *
+                        SPACING)
         CANVAS_HEIGHT = GameGrid.GRID_SIZE + 1
         CANVAS_BACKGROUND = GameCanvas.CANVAS_BACKGROUND
 
     class BuildingMenuGrid:
         """Informationen über das Grid des BuildingMenuCanvas"""
-        GRID_ROWS = 1  # Anzahl der Zeilen
-        GRID_COLS = Building.NUMBER_OF_BUILDING_TYPES * 2 - 1 # Anzahl der Spalten
+        # Anzahl der Zeilen
+        GRID_ROWS = 1
+        # Anzahl der Spalten
+        GRID_COLS = Building.NUMBER_OF_BUILDING_TYPES * 2 - 1
 
-        fields = {} # Speichert die Rechteck-IDs für jedes Feld
+        fields = {}  # Speichert die Rechteck-IDs für jedes Feld
         """
-            Das Dictionary `fields`, verwalltet die Daten aller Spielfelder.<br>
-            Jedes Feld wird durch seine (Spalte, Zeile)-Koordinaten als Schlüssel identifiziert<br>
+            Das Dictionary `fields`, verwalltet die Daten aller
+            Spielfelder.<br>
+            Jedes Feld wird durch seine (Spalte, Zeile)-Koordinaten als
+            Schlüssel identifiziert<br>
             und enthält folgende Attribute:
-    
-            - `rect_id` (int): Die ID des Rechtecks im Canvas, um das Feld grafisch darzustellen.
-            - `building` (int): Der Gebäudestatus des Feldes (0 = nichts, 1 = Dorf, etc.).
-            - `team` (int): Der Besitzstatus des Feldes (0 = neutral, 1 = Team 1, 2 = Team 2).
+
+            - `rect_id` (int): Die ID des Rechtecks im Canvas, um das Feld
+            grafisch darzustellen.
+            - `building` (int): Der Gebäudestatus des Feldes (0 = nichts,
+            1 = Dorf, etc.).
+            - `team` (int): Der Besitzstatus des Feldes (0 = neutral,
+            1 = Team 1, 2 = Team 2).
             <br>
             Beispielzugriff:
             ```# Feld bei Spalte 3, Zeile 2
@@ -188,11 +208,12 @@ class BuildingMenu:
                 fields[(3, 2)]["building"] = 1  # Setzt ein Dorf auf das Feld
                 fields[(3, 2)]["team"] = 1      # Feld gehört jetzt Team 1
         """
-    
+
     is_field_selected = False
     selected_field = ()
     building_costs = 0
     building_duration = 0
+
 
 class Design:
     class Fonts:
@@ -233,20 +254,29 @@ class Design:
     #     HEADING_2 = {"font": Fonts.HEADING_2, "fg": Colors.TEXT_PRIMARY}
     #     HEADING_3 = {"font": Fonts.HEADING_3, "fg": Colors.TEXT_SECONDARY}
     #     PARAGRAPH_1 = {"font": Fonts.PARAGRAPH_1, "fg": Colors.TEXT_PRIMARY}
-    #     PARAGRAPH_2 = {"font": Fonts.PARAGRAPH_2, "fg": Colors.TEXT_SECONDARY}
-    #     PARAGRAPH_3 = {"font": Fonts.PARAGRAPH_3, "fg": Colors.TEXT_SECONDARY}
+        # PARAGRAPH_2 = {"font": Fonts.PARAGRAPH_2,
+        #                "fg": Colors.TEXT_SECONDARY}
+        # PARAGRAPH_3 = {"font": Fonts.PARAGRAPH_3,
+        #                "fg": Colors.TEXT_SECONDARY}
 
     # class Buttons:
     #     # Design-Presets für Buttons
-    #     PRIMARY = {"font": Fonts.BUTTON_TEXT, "bg": Colors.PRIMARY, "fg": "white"}
-    #     SECONDARY = {"font": Fonts.BUTTON_TEXT, "bg": Colors.SECONDARY, "fg": "white"}
-    #     DANGER = {"font": Fonts.BUTTON_TEXT, "bg": Colors.DANGER, "fg": "white"}
-    #     WARNING = {"font": Fonts.BUTTON_TEXT, "bg": Colors.WARNING, "fg": "black"}
-    #     INFO = {"font": Fonts.BUTTON_TEXT, "bg": Colors.INFO, "fg": "white"}
+        # PRIMARY = {"font": Fonts.BUTTON_TEXT, "bg": Colors.PRIMARY,
+        #            "fg": "white"}
+        # SECONDARY = {"font": Fonts.BUTTON_TEXT, "bg": Colors.SECONDARY,
+        #              "fg": "white"}
+        # DANGER = {"font": Fonts.BUTTON_TEXT, "bg": Colors.DANGER,
+        #           "fg": "white"}
+        # WARNING = {"font": Fonts.BUTTON_TEXT, "bg": Colors.WARNING,
+        #            "fg": "black"}
+        # INFO = {"font": Fonts.BUTTON_TEXT, "bg": Colors.INFO,
+        #         "fg": "white"}
 
     # class Entries:
     #     # Design-Presets für Entry-Felder
-    #     DEFAULT = {"font": Fonts.INPUT_TEXT, "bg": Colors.LIGHT, "fg": Colors.TEXT_PRIMARY, "highlightthickness": 1, "highlightbackground": Colors.DARK}
+        # DEFAULT = {"font": Fonts.INPUT_TEXT, "bg": Colors.LIGHT,
+        #            "fg": Colors.TEXT_PRIMARY, "highlightthickness": 1,
+        #            "highlightbackground": Colors.DARK}
 
     # class Frames:
     #     # Design-Presets für Frames
