@@ -13,44 +13,62 @@ from gui.menus.stadt_menu import StadtMenu
 from models.home import Home
 from models.street import Street
 
+
 class GameCanvas:
     def __init__(self, root):
         self.root = root
-        config.GameCanvas.canvas = tk.Canvas(self.root, width=config.GameCanvas.CANVAS_WIDTH, height=config.GameCanvas.CANVAS_HEIGHT, bg=config.GameCanvas.CANVAS_BACKGROUND)
+        config.GameCanvas.canvas = tk.Canvas(
+            self.root,
+            width=config.GameCanvas.CANVAS_WIDTH,
+            height=config.GameCanvas.CANVAS_HEIGHT,
+            bg=config.GameCanvas.CANVAS_BACKGROUND
+        )
         config.GameCanvas.canvas.grid(row=0, column=0, columnspan=5)
         config.GameCanvas.canvas.bind("<Button-1>", self.on_click)
 
     @staticmethod
-    def create_grid(rows=config.GameGrid.GRID_ROWS, cols=config.GameGrid.GRID_COLS, grid_size=config.GameGrid.GRID_SIZE):
+    def create_grid(rows=config.GameGrid.GRID_ROWS,
+                    cols=config.GameGrid.GRID_COLS,
+                    grid_size=config.GameGrid.GRID_SIZE):
         """Erzeugt das Spielfeld-Raster
 
         Args:
-            rows (int, optional): Anzahl der Zeilen. Defaults to `config.Grid.GRID_ROWS`.
-            cols (int, optional): Anzahl der Spalten. Defaults to `config.Grid.GRID_COLS`.
-            grid_size (int, optional): Größe der Felder. Defaults to `config.Grid.GRID_SIZE`."""
+            rows (int, optional): Anzahl der Zeilen.
+                Defaults to `config.Grid.GRID_ROWS`.
+            cols (int, optional): Anzahl der Spalten.
+                Defaults to `config.Grid.GRID_COLS`.
+            grid_size (int, optional): Größe der Felder.
+                Defaults to `config.Grid.GRID_SIZE`."""
         for row in range(rows):
             for col in range(cols):
                 # Berechne die Koordinaten für jedes Feld
-                x1, y1 = col * grid_size +2, row * grid_size +2
+                x1, y1 = col * grid_size + 2, row * grid_size + 2
                 x2, y2 = x1 + grid_size, y1 + grid_size
-                
+
                 # Erstelle das Rechteck für das Feld
-                rect_id = config.GameCanvas.canvas.create_rectangle(x1, y1, x2, y2, outline="black")
+                rect_id = config.GameCanvas.canvas.create_rectangle(
+                    x1, y1, x2, y2, outline="black"
+                )
                 # Speichere die Feldinformationen als Dictionary
                 config.GameGrid.fields[(col, row)] = {
-                    "rect_id": rect_id,     # Rechteck-ID im Canvas
-                    "building": config.Building.BuildingID.NO_BUILDING,     # 0=nichts, 1=Dorf, weitere Werte können hinzugefügt werden
-                    "player": config.Player.PlayerID.NO_PLAYER,     # 0=nicht eingenommen, 1=player1, 2=player2 (Computer)
-                    "persistent_color": None,    # Farbe für persistente Highlights
-                    "connections": {             # Verbindungen zu Straßen in spezifischen Richtungen
-                        "N": False,  # Norden
-                        "NE": False, # Nord-Osten
-                        "E": False,  # Osten
-                        "SE": False, # Süd-Osten
-                        "S": False,  # Süden
-                        "SW": False, # Süd-Westen
-                        "W": False,  # Westen
-                        "NW": False, # Nord-Westen
+                    # Rechteck-ID im Canvas
+                    "rect_id": rect_id,
+                    # 0=nichts, 1=Dorf, weitere Werte können hinzugefügt werden
+                    "building": config.Building.BuildingID.NO_BUILDING,
+                    # 0=nicht eingenommen, 1=player1, 2=player2 (Computer)
+                    "player": config.Player.PlayerID.NO_PLAYER,
+                    # Farbe für persistente Highlights
+                    "persistent_color": None,
+                    # Verbindungen zu Straßen in spezifischen Richtungen
+                    "connections": {
+                        "N": False,   # Norden
+                        "NE": False,  # Nord-Osten
+                        "E": False,   # Osten
+                        "SE": False,  # Süd-Osten
+                        "S": False,   # Süden
+                        "SW": False,  # Süd-Westen
+                        "W": False,   # Westen
+                        "NW": False,  # Nord-Westen
                     }
                 }
 
@@ -69,32 +87,49 @@ class GameCanvas:
                     if not config.GameCanvas.is_field_selected:
                         config.GameCanvas.is_field_selected = True
                         config.GameCanvas.selected_field = result
-                        ###############################################################
-                        canvas_utils.highlight_field(config.GameCanvas.canvas, col, row)
-                        ###############################################################
+                        #######################################################
+                        canvas_utils.highlight_field(
+                            config.GameCanvas.canvas, col, row
+                        )
+                        #######################################################
                     elif config.GameCanvas.is_field_selected:
                         if config.GameCanvas.selected_field == result:
                             Home.place_home()
                         else:
-                            canvas_utils.clear_field(config.GameCanvas.canvas, field_coords=config.GameCanvas.selected_field)
+                            canvas_utils.clear_field(
+                                config.GameCanvas.canvas,
+                                field_coords=config.GameCanvas.selected_field
+                            )
                             config.GameCanvas.selected_field = result
-                            ###############################################################
-                            canvas_utils.highlight_field(config.GameCanvas.canvas, col, row)
-                            ###############################################################
+                            ###################################################
+                            canvas_utils.highlight_field(
+                                config.GameCanvas.canvas, col, row
+                            )
+                            ###################################################
             elif config.Building.Street.street_placing_mode:
                 if config.Building.Street.street_start_field is None:
                     config.GameCanvas.selected_field = result
                     config.Building.Street.street_start_field = result
-                    canvas_utils.highlight_field(config.GameCanvas.canvas, field_coords=result)
+                    canvas_utils.highlight_field(
+                        config.GameCanvas.canvas, field_coords=result
+                    )
                 elif result == config.Building.Street.street_start_field:
                     config.GameCanvas.selected_field = None
                     config.Building.Street.street_start_field = None
-                    canvas_utils.clear_field(config.GameCanvas.canvas, field_coords=result)
-                elif identify_utils.is_neighbour(config.Building.Street.street_start_field, result):
+                    canvas_utils.clear_field(
+                        config.GameCanvas.canvas, field_coords=result
+                    )
+                elif identify_utils.is_neighbour(
+                     config.Building.Street.street_start_field, result):
                     config.GameCanvas.selected_field = result
                     config.Building.Street.street_end_field = result
-                    canvas_utils.clear_field(config.GameCanvas.canvas, field_coords=config.Building.Street.street_start_field)
-                    canvas_utils.highlight_field(config.GameCanvas.canvas, field_coords=result)
+                    canvas_utils.clear_field(
+                        config.GameCanvas.canvas,
+                        field_coords=config.Building.Street.street_start_field
+                    )
+                    canvas_utils.highlight_field(
+                        config.GameCanvas.canvas, field_coords=result
+                    )
                     Street.build_preview_street()
                     config.Building.Street.street_start_field = result
                     config.Building.Street.street_end_field = None
@@ -117,7 +152,8 @@ class GameCanvas:
                 BuildingMenu(self.root)
             elif building_id == config.Building.BuildingID.DORF:
                 DorfMenu(self.root)
-            elif building_id == config.Building.BuildingID.RESSOURCENPRODUKTION:
+            elif (building_id
+                  == config.Building.BuildingID.RESSOURCENPRODUKTION):
                 RessourcenproduktionMenu(self.root)
             elif building_id == config.Building.BuildingID.STADT:
                 StadtMenu(self.root)
