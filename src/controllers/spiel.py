@@ -20,13 +20,12 @@ class StrategieSpiel:
         self.resource_manager = ResourceManager()
 
         self.init_game()
-        
+
     def init_game(self):
         economy_manager.set_init_ressources()
         self.canvas.create_grid()
         window_utils.update_widgets(config.GameWindow.labels)
         game_state_utils.test()
-
 
     def end_turn(self):
         # Zug beenden
@@ -35,7 +34,6 @@ class StrategieSpiel:
             window_utils.update_widgets(config.GameWindow.labels)
         elif config.Game.current_turn == 1:
             self.end_round()
-
 
     def end_round(self):
         # Runde beenden und Ressourcen aktualisieren
