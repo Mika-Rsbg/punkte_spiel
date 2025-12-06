@@ -9,6 +9,7 @@ import utils.economy_manager as economy_manager
 import utils.game_state_utils as game_state_utils
 import utils.window_utils as window_utils
 
+
 class StrategieSpiel:
     """Hauptklasse des Spiels."""
     def __init__(self, root):

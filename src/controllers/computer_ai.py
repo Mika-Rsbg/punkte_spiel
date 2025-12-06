@@ -1,5 +1,6 @@
 import random
 
+
 class ComputerAI:
     def __init__(self, spiel):
         self.spiel = spiel
