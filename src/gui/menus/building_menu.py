@@ -13,11 +13,13 @@ from models.ressourcenproduktion import Ressourcenproduktion
 from models.stadt import Stadt
 from models.street import Street
 
+
 class BuildingMenu:
     def __init__(self, parent):
         """Erstellt das Building-Menü als Toplevel-Fenster.
         Args:
-            parent (tk.Tk | tk.Toplevel): Das Elternfenster, in dem dieses Menü geöffnet wird."""
+            parent (tk.Tk | tk.Toplevel): Das Elternfenster,
+                in dem dieses Menü geöffnet wird."""
         self.window = tk.Toplevel(parent)
         self.window.title("Building Menu")
 
@@ -37,36 +39,55 @@ class BuildingMenu:
         self.dynamic_widgets = []
 
         # Widgets hinzufügen
-        label = tk.Label(self.window, text="Bau Optionen", font=config.Design.Fonts.HEADING_2)
+        label = tk.Label(
+            self.window, text="Bau Optionen",
+            font=config.Design.Fonts.HEADING_2
+        )
         label.grid(row=0, column=0, columnspan=3, sticky="nswe")
 
-        self.canvas = tk.Canvas(self.window, width=config.BuildingMenu.BuildingMenuCanvas.CANVAS_WIDTH, height=config.BuildingMenu.BuildingMenuCanvas.CANVAS_HEIGHT, bg=config.BuildingMenu.BuildingMenuCanvas.CANVAS_BACKGROUND)
+        self.canvas = tk.Canvas(
+            self.window,
+            width=config.BuildingMenu.BuildingMenuCanvas.CANVAS_WIDTH,
+            height=config.BuildingMenu.BuildingMenuCanvas.CANVAS_HEIGHT,
+            bg=config.BuildingMenu.BuildingMenuCanvas.CANVAS_BACKGROUND
+        )
         self.canvas.grid(row=1, column=0, columnspan=3)
         self.canvas.bind("<Button-1>", self.on_click)
 
         self.create_grid()
 
-        button3 = tk.Button(self.window, text="Close", command=self.destroy_window, bg=config.Design.Colors.PRIMARY, font=config.Design.Fonts.BUTTON_TEXT)
+        button3 = tk.Button(
+            self.window, text="Close", command=self.destroy_window,
+            bg=config.Design.Colors.PRIMARY,
+            font=config.Design.Fonts.BUTTON_TEXT
+        )
         button3.grid(row=6, column=2, padx=10, pady=10)
         window_utils.resize_window(self.window)
 
-    def create_grid(self, rows=config.BuildingMenu.BuildingMenuGrid.GRID_ROWS, cols=config.BuildingMenu.BuildingMenuGrid.GRID_COLS, grid_size=config.GameGrid.GRID_SIZE):
+    def create_grid(self, rows=config.BuildingMenu.BuildingMenuGrid.GRID_ROWS,
+                    cols=config.BuildingMenu.BuildingMenuGrid.GRID_COLS,
+                    grid_size=config.GameGrid.GRID_SIZE):
         """Erzeugt das Auswahl-Raster
 
         Args:
-            rows (int, optional): Anzahl der Zeilen. Defaults to `config.BuildingMenu.BuildingMenuGrid.GRID_ROWS`.
-            cols (int, optional): Anzahl der Spalten. Defaults to `config.BuildingMenu.BuildingMenuGrid.GRID_COLS`.
-            grid_size (int, optional): Größe der Felder. Defaults to `config.GameGrid.GRID_SIZE`."""
+            rows (int, optional): Anzahl der Zeilen.
+                Defaults to `config.BuildingMenu.BuildingMenuGrid.GRID_ROWS`.
+            cols (int, optional): Anzahl der Spalten.
+                Defaults to `config.BuildingMenu.BuildingMenuGrid.GRID_COLS`.
+            grid_size (int, optional): Größe der Felder.
+                Defaults to `config.GameGrid.GRID_SIZE`."""
         # Hintergrundfarbe des Fensters
         window_bg_color = self.window["bg"]
-        canvas_bg_color = None#config.BuildingMenu.BuildingMenuCanvas.CANVAS_BACKGROUND
+        # config.BuildingMenu.BuildingMenuCanvas.CANVAS_BACKGROUND
+        canvas_bg_color = None
 
         # Verfügbare Ressourcen des Spielers
         ressources = game_state_utils.get_player_ressources()
 
         # Farben für die Gebäude
         color_ressourcenproduktion = game_state_utils.get_building_availability_color(
-            config.Building.BuildingID.RESSOURCENPRODUKTION, ressources, canvas_bg_color
+            config.Building.BuildingID.RESSOURCENPRODUKTION, ressources,
+            canvas_bg_color
         )
         color_dorf = game_state_utils.get_building_availability_color(
             config.Building.BuildingID.DORF, ressources, canvas_bg_color
@@ -83,7 +104,7 @@ class BuildingMenu:
                 # Berechne die Koordinaten für jedes Feld
                 x1, y1 = col * grid_size + 2, row * grid_size + 2
                 x2, y2 = x1 + grid_size, y1 + grid_size
-                
+
                 x = (x1 + x2) / 2
                 y = (y1 + y2) / 2
 
@@ -123,7 +144,7 @@ class BuildingMenu:
                     config.BuildingMenu.BuildingMenuGrid.fields[(col - 1, row)]["rect_id"] = self.canvas.create_rectangle(x1, y1, x2, y2, outline="black")
                     # Zeichnen der Gebäude
                     if (col) == 1:
-                        canvas_utils.draw.draw_dorf(self.canvas, x, y)
+                        canvas_utils.draw.draw_dorf(canvas= self.canvas, x, y)
                         building_id = config.Building.BuildingID.DORF
                         config.BuildingMenu.BuildingMenuGrid.fields[(col_1, row)]["building"] = building_id
                         config.BuildingMenu.BuildingMenuGrid.fields[(col_1, row)]["too_expensive"] = game_state_utils.is_building_too_expensive(building_id, ressources)
