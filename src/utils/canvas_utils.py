@@ -1,4 +1,5 @@
 import tkinter as tk
+from typing import Tuple, Union
 
 import config
 import utils.game_state_utils as game_state_utils
@@ -199,41 +200,58 @@ def blend_colors(bg_color, fg_color, alpha):
     
     return rgb_to_hex(blended_rgb)
 
+
 class draw:
     """Funktionen zum zeichen auf den Canvas"""
-    def draw_dorf(canvas, x=None, y=None, col=None, row=None, field_coords=None, color=None, radius=config.Building.Dorf.RADIUS_DORF, grid_size=config.GameGrid.GRID_SIZE):
+    @staticmethod
+    # Fixme
+    def draw_dorf(canvas, x: int, y: int, col: int, row: int,
+                  field_coords: Union[Tuple[int, int], None] = None,
+                  color: str = "",
+                  radius: int = config.Building.Dorf.RADIUS_DORF,
+                  grid_size: int = config.GameGrid.GRID_SIZE):
         """Zeichnet ein Dorf als Kreis auf dem Spielfeld-Canvas.
         Args:
-            canvas (tk.Canvas): Das Tkinter Canvas-Objekt, auf dem das Dorf gezeichnet wird.
-            x (int, optional): Die x-Koordinate des Mittelpunktes des Kreises. Defaults to None.
-            y (int, optional): Die y-Koordinate des Mittelpunktes des Kreises. Defaults to None.
-            col (int, optional): Die Spaltennummer des Feldes, auf dem das Dorf liegt. Defaults to None.
-            row (int, optional): Die Zeilennummer des Feldes, auf dem das Dorf liegt. Defaults to None.
-            field_coords (tuple): Die Koordinaten des Feldes als (Spalte, Zeile). Defaults to None
-            color (str): Die Farbe des Kreises, z.B. "red", "green", etc. Defaults to None.
-            radius (int, optional): Der Radius des Kreises. Defaults to `config.Dorf.RADIUS_DORF`.
+            canvas (tk.Canvas): Das Tkinter Canvas-Objekt, auf dem das
+                Dorf gezeichnet wird.
+            x (int, optional): Die x-Koordinate des Mittelpunktes des Kreises.
+                Defaults to None.
+            y (int, optional): Die y-Koordinate des Mittelpunktes des Kreises.
+                Defaults to None.
+            col (int, optional): Die Spaltennummer des Feldes, auf dem das
+                Dorf liegt. Defaults to None.
+            row (int, optional): Die Zeilennummer des Feldes, auf dem das
+                Dorf liegt. Defaults to None.
+            field_coords (tuple): Die Koordinaten des Feldes als
+                (Spalte, Zeile). Defaults to None
+            color (str): Die Farbe des Kreises, z.B. "red", "green", etc.
+                Defaults to None.
+            radius (int, optional): Der Radius des Kreises.
+                Defaults to `config.Dorf.RADIUS_DORF`.
         Returns:
-            int: Die ID des gezeichneten Objekts im Canvas, die verwendet werden kann, um das Objekt später zu manipulieren."""
-        if color == None:
+            int: Die ID des gezeichneten Objekts im Canvas, die verwendet
+                werden kann, um das Objekt später zu manipulieren."""
+        if color == "":
             color = game_state_utils.get_player_color(config.Game.current_turn)
-        if not field_coords is None:
+        if field_coords is not None:
             col, row = field_coords
-            
+
         # Generiere eindeutige Tags basierend auf den Koordinaten
         tags = "dorf"
 
         if x is None and y is None:
             x1, y1 = col * grid_size + 2, row * grid_size + 2
             x2, y2 = x1 + grid_size, y1 + grid_size
-            
+
             x = (x1 + x2) / 2
             y = (y1 + y2) / 2
-        
+
         # Zeichne den Kreis
-        return canvas.create_oval(x - radius, y - radius,
-                                    x + radius, y + radius,
-                                    fill=color, tags=tags)
-    
+        return canvas.create_oval(
+            x - radius, y - radius, x + radius, y + radius, fill=color,
+            tags=tags
+        )
+
     def draw_ressourcenproduktion(canvas, x=None, y=None, col=None, row=None, field_coords=None, color=None, grid_size=config.GameGrid.GRID_SIZE):
         """Zeichnet eine Ressourcenproduktion als Quadrat auf dem Spielfeld-Canvas.
         Args:
