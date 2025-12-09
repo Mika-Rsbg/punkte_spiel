@@ -1,3 +1,10 @@
+import tkinter as tk
+from typing import Tuple, Union
+
+from gui.buttons import ButtonPanel
+from gui.labels import ResourceLabel
+
+
 class Game:
     """Informationen über das Spiel"""
     round_number = 0
@@ -7,8 +14,8 @@ class Game:
 
 class GameWindow:
     """Informationen über das Hauptfenster und den Inhalt vom Hauptfenster."""
-    buttons = None
-    labels = None
+    buttons: ButtonPanel
+    labels: ResourceLabel
 
 
 class GameGrid:
@@ -49,9 +56,9 @@ class GameCanvas:
     CANVAS_WIDTH = GameGrid.GRID_SIZE * GameGrid.GRID_COLS + 1
     CANVAS_HEIGHT = GameGrid.GRID_SIZE * GameGrid.GRID_ROWS + 1
     CANVAS_BACKGROUND = "#70ff74"
-    canvas = None
+    canvas: tk.Canvas
     is_field_selected = False
-    selected_field = ()
+    selected_field: Union[Tuple[int, int], None]
     persistent_highlights = set()  # Speichert persistent hervorgehobene Felder
 
 
@@ -148,8 +155,8 @@ class Building:
         OCCUPATION_RADIUS = 0
 
         street_placing_mode = False
-        street_start_field = None
-        street_end_field = None
+        street_start_field: Union[Tuple[int, int], None]
+        street_end_field: Union[Tuple[int, int], None]
 
         preview_streets = []
 
