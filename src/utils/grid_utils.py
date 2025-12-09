@@ -1,6 +1,7 @@
+from typing import Tuple
 import config
 
-def get_grid_coordinates(x, y, grid_size=config.GameGrid.GRID_SIZE, rows=config.GameGrid.GRID_ROWS, cols=config.GameGrid.GRID_COLS):
+def get_grid_coordinates(x, y, grid_size=config.GameGrid.GRID_SIZE, rows=config.GameGrid.GRID_ROWS, cols=config.GameGrid.GRID_COLS) -> Tuple[int, int] | None:
     """Berechnet die Spalten- und Zeilenposition im Raster basierend auf Pixelkoordinaten.
     Args:
         x (int): X-Koordinate in Pixeln.
