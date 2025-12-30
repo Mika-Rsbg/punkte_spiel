@@ -144,7 +144,7 @@ class BuildingMenu:
                     config.BuildingMenu.BuildingMenuGrid.fields[(col - 1, row)]["rect_id"] = self.canvas.create_rectangle(x1, y1, x2, y2, outline="black")
                     # Zeichnen der Gebäude
                     if (col) == 1:
-                        canvas_utils.draw.draw_dorf(canvas= self.canvas, x, y)
+                        canvas_utils.draw.draw_dorf(self.canvas, x, y)
                         building_id = config.Building.BuildingID.DORF
                         config.BuildingMenu.BuildingMenuGrid.fields[(col_1, row)]["building"] = building_id
                         config.BuildingMenu.BuildingMenuGrid.fields[(col_1, row)]["too_expensive"] = game_state_utils.is_building_too_expensive(building_id, ressources)
